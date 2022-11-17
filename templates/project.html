@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+Projects
+{% endblock title %}
+{% block body %}
+    <div class="welcome">
+    <h1>Let's get stuff done.</h1>
+        <h2>My Projects</h2>
+        <ul>
+            {% for p in projects %}
+            <li>
+                <a href="/{project.id}">{{project.title}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <!-- Pretty sure there's a django forms I can use here... -->
+        <!-- OR add project? -->
+        <h3>Task Manager</h3>
+        <form action="/add-todo">
+            <label for="title"><input type="text" id="title"></label>
+            <label for="password"><input type="text" id="password"></label>
+            <label for="{{teammember.id}}"><input type="checkbox" name="" id="{{teammember.id}}"></label>
+            <button>Login</button>
+            <a href="/signup">Add Task</a>
+        </form>
+    </div>
+{% endblock body %}
