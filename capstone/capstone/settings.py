@@ -10,7 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from authlib.integrations.django_client import OAuth
+
+oauth = OAuth()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%y2#xho4kc)=fs%)#arplao7a7u=m(pxo_t74exs$n89pd5^rd'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-%y2#xho4kc)=fs%)#arplao7a7u=m(pxo_t74exs$n89pd5^rd')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == "1" #1 == True 
+print(DEBUG)
+print('---------------------------')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", 'localhost']
 
 
 # Application definition
@@ -103,6 +110,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHLIB_OAUTH_CLIENTS = {
+    'basecamp': {
+        'client_id': 'fdfcd31459e0e7491296ea11a0dd53ab984e3417',
+        'client_secret': '3be318f63a3047d55fcb84d22959a6c6f77e62f2',
+        'request_token_url': 'https://launchpad.37signals.com/authorization/new',
+        'request_token_params': None,
+        'access_token_url': 'https://launchpad.37signals.com/authorization/token',
+        'access_token_params': None,
+        'refresh_token_url': None,
+        'authorize_url': 'https://launchpad.37signals.com/authorization/',
+        'api_base_url': 'https://3.basecampapi.com/999999999/',
+        'client_kwargs': None
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
