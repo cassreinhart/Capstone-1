@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import People, Project, TodoList, Todo, Message
 
-class 
+# class 
 
 admin.site.register(People)
 admin.site.register(Project)
