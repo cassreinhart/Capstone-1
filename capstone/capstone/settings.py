@@ -115,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHLIB_OAUTH_CLIENTS = {
     'basecamp': {
         'client_id': 'fdfcd31459e0e7491296ea11a0dd53ab984e3417',
-        'client_secret': '3be318f63a3047d55fcb84d22959a6c6f77e62f2',
+        'client_secret': secret.client_secret,
         'request_token_url': 'https://launchpad.37signals.com/authorization/new',
         'request_token_params': None,
         'access_token_url': 'https://launchpad.37signals.com/authorization/token',
