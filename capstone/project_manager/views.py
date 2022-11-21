@@ -1,15 +1,17 @@
 from django.shortcuts import render
-from secret import redirect_uri, client_id, client_secret
-from settings import AUTHLIB_OAUTH_CLIENTS
+# from .. import settings
+from authlib.integrations.django_client import OAuth
+# from ../secret import redirect_uri, client_id, client_secret
 
+oauth = OAuth()
 
 #################### AUTH ROUTES ####################
 
  #register a remote application on the OAuth registry via oauth.register method
 oauth.register(
     name='basecamp',
-    client_id=client_id,
-    client_secret=client_secret,
+    client_id='fdfcd31459e0e7491296ea11a0dd53ab984e3417',
+    client_secret='3be318f63a3047d55fcb84d22959a6c6f77e62f2',
     access_token_url='https://launchpad.37signals.com/authorization/token',
     access_token_params=None,
     authorize_url='https://launchpad.37signals.com/authorization/',
@@ -53,8 +55,14 @@ def authorize(request):
     resp.raise_for_status()
     profile = resp.json()
     # do something with the token and profile
+    #store token in db? Register with user profile???
     return '...'
 # After user confirmed on Basecamp authorization page, it will redirect back to your website authorize. In this route, you can get your user’s GitHub profile information, you can store the user information in your database, mark your user as logged in and etc.
 
 def welcome(request):
     return render(request, 'project/index.html')
+
+def project(request):
+    return render(request, 'project/detail.html')
+
+# def 
