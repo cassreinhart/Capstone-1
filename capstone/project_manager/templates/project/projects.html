@@ -6,19 +6,25 @@ Projects
     <div class="welcome">
     <h1>Let's get stuff done.</h1>
         <h2>My Projects</h2>
+        {% if projects %}
         <ul>
             {% for p in projects %}
             <li>
-                <a href="/{project.id}">{{project.title}}</a>
+                <a href="{% url 'detail' p.id %}">{{ p.name }}</a>
             </li>
             {% endfor %}
         </ul>
+        {% else %}
+        <p>Nothing Here Yet!</p>
+        
+        {% endif %}
     </div>
     <div>
-        <h3>Task Manager</h3>
+        <h3>Add a Project</h3>
         <form method="post">
+            {% csrf_token %}
             {{ form }}
-            <button type="submit">Add Task</button>
+            <button type="submit">Create New Project</button>
         </form>
     </div>
 {% endblock %}

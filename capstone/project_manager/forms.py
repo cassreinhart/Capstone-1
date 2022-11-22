@@ -1,12 +1,18 @@
 from django import forms
 from django.forms import modelform_factory, ModelForm
-from .models import People, User
+from .models import People, User, Project
 
-class NameForm(forms.Form):
-    username = forms.CharField(max_length=100)
-    password = forms.CharField(max_length=50)
-    def save(self):
-        pass
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+# class NameForm(forms.Form):
+#     username = forms.CharField(max_length=100)
+#     password = forms.CharField(max_length=50)
+#     def save(self):
+#         pass
 
 class UserForm(forms.ModelForm):
     class Meta:

@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect
 # from .. import settings
 from authlib.integrations.django_client import OAuth
 # from .secret import client_secret, redirect_uri
-from .forms import NameForm
+from .forms import ProjectForm
+from .models import Project 
 
 
 
@@ -68,8 +69,27 @@ def authorize(request):
 def welcome(request):
     return render(request, 'project/index.html')
 
-def project(request):
-    return render(request, 'project/detail.html')
+################### PROJECT VIEWS ################### 
+
+def all_projects(request):
+    '''Show all my projects with a form to add projects and handle add project form.'''
+    projects = Project.objects.all()
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+
+        if form.is_valid():
+            form.save() #saves data to db
+            return redirect('all_projects')
+    
+    else:
+        form = ProjectForm()
+    return render(request, 'project/projects.html', {'projects': projects, 'form': form})
+
+def project(request, id):
+    project = Project.objects.get(pk=id)
+    return render(request, 'project/detail.html', {'project':project})
+
+# def 
 
 ############################ LOGIN/SIGNUP VIEWS ############################ 
 #Go with User model/form
