@@ -15,11 +15,10 @@ Projects
         </ul>
     </div>
     <div>
-        <!-- Pretty sure there's a django forms I can use here... -->
-        <!-- OR add project? -->
         <h3>Task Manager</h3>
-        <form action="/add-todo">
-            
+        <form method="post">
+            {{ form }}
+            <button type="submit">Add Task</button>
         </form>
     </div>
 {% endblock %}

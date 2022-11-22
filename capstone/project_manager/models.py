@@ -36,3 +36,8 @@ class Message(models.Model):
     subject = models.CharField(max_length=100)
     content = models.CharField(max_length=300)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+class User(models.Model):
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=50)
+    people_id = models.ForeignKey(People, on_delete=models.CASCADE)

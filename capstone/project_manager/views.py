@@ -1,7 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from django.template import loader
+from django.http import HttpResponseRedirect
 # from .. import settings
 from authlib.integrations.django_client import OAuth
-# from ../secret import redirect_uri, client_id, client_secret
+# from .secret import client_secret, redirect_uri
+from .forms import NameForm
+
+
 
 oauth = OAuth()
 
@@ -46,7 +52,7 @@ oauth.register(
 
 def login(request):
     basecamp = oauth.create_client('basecamp')
-    # redirect_uri = redirect_uri #### global, don't need to set here?????
+    redirect_uri = 'http://localhost:8000/token' #### global, don't need to set here?????
     return basecamp.authorize_redirect(request, redirect_uri)
 
 def authorize(request):
@@ -65,4 +71,30 @@ def welcome(request):
 def project(request):
     return render(request, 'project/detail.html')
 
-# def 
+############################ LOGIN/SIGNUP VIEWS ############################ 
+#Go with User model/form
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+
+        if form.is_valid():
+            form.save() #saves data to db
+            return redirect('login')
+    
+    else:
+        form = UserForm()
+
+    return render(request, 'user/signup.html', {'form': form})
+
+# def login(request):
+#     if request.method == 'POST':
+#         form = UserForm(request.POST)
+
+#         if form.is_valid():
+#             return redirect('index')
+    
+#     else:
+#         form = UserForm()
+    
+#     return render(request, 'user/login.html', {'form': form})
