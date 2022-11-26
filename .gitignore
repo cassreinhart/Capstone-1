@@ -1,4 +1,6 @@
 /capstone/capstone/secret.py
+credentials.json
+client_secret_290854060236-8ndifme2eqvjsk04qr4409a7hicgkg08.apps.googleusercontent.com.json
 # Django #
 *.log
 *.pot

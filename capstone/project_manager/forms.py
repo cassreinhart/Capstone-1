@@ -1,11 +1,16 @@
 from django import forms
 from django.forms import modelform_factory, ModelForm
-from .models import People, User, Project
+from .models import People, User, Project, TodoList
 
 
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
+        fields = '__all__'
+
+class TodoListForm(forms.ModelForm):
+    class Meta:
+        model = TodoList
         fields = '__all__'
 
 # class NameForm(forms.Form):

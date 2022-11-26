@@ -5,8 +5,8 @@ from django.http import HttpResponseRedirect
 # from .. import settings
 from authlib.integrations.django_client import OAuth
 # from .secret import client_secret, redirect_uri
-from .forms import ProjectForm
-from .models import Project 
+from .forms import ProjectForm, TodoListForm
+from .models import Project, TodoList
 
 
 
@@ -24,9 +24,20 @@ oauth.register(
     authorize_url='https://launchpad.37signals.com/authorization/',
     authorize_params=None,
     api_base_url='https://3.basecampapi.com/999999999/',
-    client_kwargs={'scope': 'user:email'},
+    client_kwargs={'scope': 'user:email'}, #####################
 )
 
+oauth.register(
+    name='google',
+    client_id='290854060236-8ndifme2eqvjsk04qr4409a7hicgkg08.apps.googleusercontent.com',
+    client_secret='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',
+    access_token_url='https://launchpad.37signals.com/authorization/token',
+    access_token_params=None,
+    authorize_url='https://launchpad.37signals.com/authorization/',
+    authorize_params=None,
+    api_base_url='https://www.googleapis.com/calendar/v3',
+    client_kwargs={'scope': 'user:email'}, ####################
+)
 # The configuration of those parameters can be loaded from the framework configuration. Each framework has its own config system, read the framework specified documentation later.
 
 # The client_kwargs is a dict configuration to pass extra parameters to OAuth 2 Session, you can pass extra parameters like:
@@ -61,9 +72,11 @@ def authorize(request):
     resp = oauth.basecamp.get('user', token=token)
     resp.raise_for_status()
     profile = resp.json()
+    print(token)
+    print('*******************************')
     # do something with the token and profile
     #store token in db? Register with user profile???
-    return '...'
+    return redirect('projects')
 # After user confirmed on Basecamp authorization page, it will redirect back to your website authorize. In this route, you can get your user’s GitHub profile information, you can store the user information in your database, mark your user as logged in and etc.
 
 def welcome(request):
@@ -87,7 +100,14 @@ def all_projects(request):
 
 def project(request, id):
     project = Project.objects.get(pk=id)
-    return render(request, 'project/detail.html', {'project':project})
+    todos = TodoList.objects
+    if request.method == 'POST':
+        form = TodoListForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('detail')
+    return render(request, 'project/detail.html', {'project':project, 'todos': todos})
 
 # def 
 
@@ -118,3 +138,18 @@ def signup(request):
 #         form = UserForm()
     
 #     return render(request, 'user/login.html', {'form': form})
+
+################## BASECAMP REQUESTS ################## 
+
+# @app.get('/buckets/<int:project_id>/todosets/<int:todo_set_id>/todolists.json')
+# def get_todo_lists(project_id, todo_set_id): #do I need request in here???????????/
+#     """Return a paginated list of active to-do lists in the project with an ID of 1 and the to-do set with ID of 3.
+# To get the to-do set ID for a project, see the Get to-do set endpoint."""
+#     response = 'hello'
+#     return response
+
+# @app.get('/buckets/1/todosets/<int:todo_set_id>.json')
+# def get_todo_set(todo_set_id):
+#     #Return the to-do set for the project with an ID of 1 and a to-do set ID of 2.
+# #To get the to-do set ID for a project, see the Get a project endpoint's dock payload. To retrieve its to-do lists, see the Get to-do lists endpoint.
+#     return print('whoaaaa')
